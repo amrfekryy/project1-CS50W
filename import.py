@@ -15,10 +15,13 @@ def main():
 	# import data from "books.csv" into "books" table
 	with open("books.csv") as file:
 		reader = csv.reader(file)
+		i = 0
 		for isbn, title, author, year in reader:
-			db.execute("""INSERT INTO books (isbn, title, author, year) 
-			              VALUES (:isbn, :title, :author, :year)""",
-			{"isbn":isbn, "title":title, "author":author, "year":year})
+			db.execute("INSERT INTO books (isbn, title, author, year) VALUES ( :isbn, :title, :author, :year)", 
+				{"isbn":isbn, "title":title, "author":author, "year":year})
+			# see importing progress
+			i += 1
+			print(i)
 		db.commit()
 
 if __name__ == "__main__":
