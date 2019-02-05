@@ -26,7 +26,7 @@ db = scoped_session(sessionmaker(bind=engine))
 def index():
 	if not session.get("user_id"):
 		return redirect(url_for("login"))
-	return render_template("index.html")
+	return render_template("index.html", username=session["username"])
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
@@ -36,16 +36,21 @@ def login():
 		username = request.form.get("username")
 		password = request.form.get("password")
 
-		# GET AND COMPARE USER INFO FROM DATABASE
-		try:
-			user_info = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).fetchone()
-			# check password
-			if not check_password_hash(user_info.password, password):
-				return "password is not correct!"
-			# cookie user
-			session["user_id"] = user_info.id
-		except:
+		# TEST INPUTS
+		if not username or not password:
+			return "One or more field is missing! Please try again"
+
+		user_exists = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).rowcount
+		if not user_exists:
 			return "username doesn't exist!"
+			
+		user_info = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).fetchone()
+		if not check_password_hash(user_info.password, password):
+			return "password is not correct!"
+		
+		# COOKIE USER
+		session["user_id"] = user_info.id
+		session["username"] = user_info.username
 
 		return redirect(url_for("index"))
 
@@ -55,12 +60,12 @@ def login():
 
 @app.route("/logout")
 def logout():
-    """Log user out"""
+	"""Log user out"""
 
-    # Forget any user_id
-    session.clear()
-    # Redirect user to login form
-    return redirect("/")
+	# Forget any user_id
+	session.clear()
+	# Redirect user to login form
+	return redirect("/")
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -71,9 +76,9 @@ def register():
 		email = request.form.get("email")
 		password = request.form.get("password")
 		password2 = request.form.get("password2")
-        
-        # TEST INPUTS
-        # check all values are provided
+
+		# TEST INPUTS
+		# check all values are provided
 		if not username or not email or not password or not password2:
 			return "One or more field is missing! Please try again"
 		# check passwords match
@@ -100,11 +105,20 @@ def register():
 			return "Failure"
 		
 		# COOKIE USER
-		user_id = db.execute("SELECT id FROM users WHERE username = :username", {"username": username}).fetchone()
-		session["user_id"] = user_id
+		user_info = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).fetchone()
+		session["user_id"] = user_info.id
+		session["username"] = user_info.username
 
 		return redirect(url_for("index"))
 
 	# if registration form is requested
 	else:
 		return render_template("register.html")
+
+@app.route("/search")
+def search():
+	q = request.args.get("q")
+	q = f"%{q}%"
+	book_list = db.execute("""SELECT * FROM books WHERE isbn LIKE :q
+		OR title LIKE :q OR author LIKE :q """, {"q":q}).fetchall()
+	return render_template("index.html", q=q, book_list=book_list, username=session["username"])
