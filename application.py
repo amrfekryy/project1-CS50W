@@ -136,3 +136,9 @@ def search():
 	
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
+
+@app.route("/book/<string:isbn>")
+def book(isbn):
+	book_info = db.execute("SELECT * FROM books WHERE isbn=:isbn", {"isbn":isbn}).fetchone()
+	return render_template("book.html", book_info=book_info)
+

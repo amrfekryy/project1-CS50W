@@ -1,0 +1,10 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    {{book_info.title}}
+{% endblock %}
+
+{% block body %}
+    <!-- https://openlibrary.org/dev/docs/api/covers -->
+    <img src="http://covers.openlibrary.org/b/isbn/{{book_info.isbn}}-L.jpg" alt="">
+{% endblock %}

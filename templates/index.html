@@ -10,7 +10,7 @@
 
     <form action="{{ url_for('search') }}" method="get">
         <div class="form-group">
-            <input class="form-control" type="text" name="q" placeholder="Search books by isbn, title, author or year">
+            <input class="form-control" type="text" name="q" placeholder="Search books by ISBN, title, author or year">
         </div>
         <div class="form-group">
             <button class="btn btn-primary">Search</button>
@@ -25,7 +25,6 @@
           <thead class="thead-light">
             <tr>
               <th scope="col">#</th>
-              <th scope="col">ISBN</th>
               <th scope="col">Title</th>
               <th scope="col">Author</th>
               <th scope="col">Year</th>
@@ -35,10 +34,12 @@
             {% for book in book_list %}
             <tr>
               <th scope="row">{{ loop.index }}</th>
-              <td>{{ book.isbn }}</td>
-              <td>{{ book.title }}</td>
-              <td><a title="search '{{ book.author }}'" href="/search?q={{ book.author }}">{{ book.author }}</a></td>
-              <td><a title="search '{{ book.year }}'" href="/search?q={{ book.year }}">{{ book.year }}</a></td>
+              
+              <td><a title="Go to book's page" href="/book/{{ book.isbn }}">{{ book.title }}</td>
+              
+              <td><a title="See all books of {{ book.author }}" href="/search?q={{ book.author }}">{{ book.author }}</a></td>
+              
+              <td><a title="See all books of {{ book.year }}" href="/search?q={{ book.year }}">{{ book.year }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
