@@ -37,8 +37,8 @@
               <th scope="row">{{ loop.index }}</th>
               <td>{{ book.isbn }}</td>
               <td>{{ book.title }}</td>
-              <td>{{ book.author }}</td>
-              <td>{{ book.year }}</td>
+              <td><a title="search for {{ book.author }}" href="/search?q={{ book.author }}">{{ book.author }}</a></td>
+              <td><a title="search for {{ book.year }}" href="/search?q={{ book.year }}">{{ book.year }}</a></td>
             </tr>
             {% endfor %}
           </tbody>
