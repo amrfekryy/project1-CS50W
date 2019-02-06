@@ -16,7 +16,11 @@
             <button class="btn btn-primary">Search</button>
         </div>
     </form>
-    {% if q %}
+    {% if q1 %}
+    {% if book_list == [] %}
+        <p>Sorry, no results for <b><i>{{ q1 }}</i></b></p>
+    {% else %}
+        <p>{{ book_list|length }} results found for <b><i>{{ q1 }}</i></b></p>
         <table class="table">
           <thead class="thead-light">
             <tr>
@@ -39,5 +43,6 @@
             {% endfor %}
           </tbody>
         </table>         
+    {% endif %}
     {% endif %}
 {% endblock %}
