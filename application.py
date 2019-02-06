@@ -24,6 +24,7 @@ db = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def index():
+	# check user is logged in
 	if not session.get("user_id"):
 		return redirect(url_for("login"))
 	return render_template("index.html", username=session["username"])
@@ -117,6 +118,9 @@ def register():
 
 @app.route("/search")
 def search():
+	# check user is logged in
+	if not session.get("user_id"):
+		return redirect(url_for("login"))
 	# get search text
 	q1 = request.args.get("q")
 	if not q1:
@@ -125,9 +129,10 @@ def search():
 	q2 = f"%{q1}%"
 	
 	# query database enabling case-insensitivity
+	# concatenate columns with separator to prevent results of words between two columns
 	book_list = db.execute("""SELECT * FROM books 
-		WHERE CONCAT(LOWER(isbn), LOWER(title), LOWER(author), year::text) LIKE LOWER(:q2)""", {"q2":q2}).fetchall()
-	# also see COLLATE utf8_general_ci
+		WHERE CONCAT_WS(' ', LOWER(isbn), LOWER(title), LOWER(author), year::text) LIKE LOWER(:q2)""", {"q2":q2}).fetchall()
+	# also see COLLATE utf8_general_ci to fix case-insensitivity
 	
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
