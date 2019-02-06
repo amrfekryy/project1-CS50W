@@ -117,8 +117,17 @@ def register():
 
 @app.route("/search")
 def search():
+	# get search text
 	q = request.args.get("q")
+	if not q:
+		return "Search field is empty!"
+	# make it partial
 	q = f"%{q}%"
-	book_list = db.execute("""SELECT * FROM books WHERE isbn LIKE :q
-		OR title LIKE :q OR author LIKE :q """, {"q":q}).fetchall()
+	
+	# query database enabling case-insensitivity
+	book_list = db.execute("""SELECT * FROM books 
+		WHERE CONCAT(LOWER(isbn), LOWER(title), LOWER(author), year::text) LIKE LOWER(:q)""", {"q":q}).fetchall()
+	# also see COLLATE utf8_general_ci
+	
 	return render_template("index.html", q=q, book_list=book_list, username=session["username"])
+
