@@ -1,4 +1,5 @@
 import os
+import requests
 
 from flask import Flask, session, render_template, redirect, url_for, request
 from flask_session import Session
@@ -139,6 +140,11 @@ def search():
 
 @app.route("/book/<string:isbn>")
 def book(isbn):
+	# get book's basic info from my DB
 	book_info = db.execute("SELECT * FROM books WHERE isbn=:isbn", {"isbn":isbn}).fetchone()
-	return render_template("book.html", book_info=book_info)
+	# get book's review info from goodreads
+	response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "yLM7LLyUkFTyeElwIrzUDA", "isbns": isbn})
+	review_info = response.json()
+	
+	return render_template("book.html", book_info=book_info, review_info=review_info)
 
