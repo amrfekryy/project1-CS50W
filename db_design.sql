@@ -13,3 +13,11 @@ CREATE TABLE users (
 	email VARCHAR NOT NULL UNIQUE,
 	password VARCHAR NOT NULL
 );
+
+CREATE TABLE reviews (
+	id SERIAL PRIMARY KEY,
+	book_id INTEGER REFERENCES books,
+	user_id INTEGER REFERENCES users,
+	rating INTEGER NOT NULL,
+	opinion VARCHAR NOT NULL
+);

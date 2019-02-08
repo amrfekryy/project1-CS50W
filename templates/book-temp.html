@@ -1,27 +1,74 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>book_info.title</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
-        <link rel="stylesheet" href="../static/styles.css">
-    </head>
-    <body>
-        <div class="container">
-        	<div class="row mt-5" >
-        		<div class="card p-2 mr-2" style="width: 14rem; height: 21rem">
-					<!-- https://openlibrary.org/dev/docs/api/covers -->
-					<img src="http://covers.openlibrary.org/b/isbn/0441017835-L.jpg" class="card-img-top">
-				</div>
-				<div class="card col">
-					<div class="card-body">
-						<h6 class="card-title"><i>Title</i> : book_info.title</h6>
-						<h6 class="card-title"><i>Author</i> : book_info.author</h6>
-						<h6 class="card-title"><i>Year</i> : book_info.year</h6>
-						<h6 class="card-title"><i>ISBN</i> : book_info.isbn</h6>
-						<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-					</div>
+<head>
+    <title>book_info.title</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.3/css/bootstrap.min.css" integrity="sha384-Zug+QiDoJOrZ5t4lssLdxGhVrurbmBWopoEl+M6BdEfwnCJZtKxi1KgxUyJq13dy" crossorigin="anonymous">
+    <link rel="stylesheet" href="../static/styles.css">
+    <style>
+    	.review {
+    		background-color: #b9cbe8;
+    		padding: 2px;
+    		border: 1px solid grey;
+    		border-radius: 10px;
+    	}
+    </style>
+</head>
+<body>
+    <div class="container">
+    	<div class="row mt-5" >
+    		<div class="card p-2 mr-2" style="width: 14rem; height: 21rem">
+				<!-- https://openlibrary.org/dev/docs/api/covers -->
+				<img src="http://covers.openlibrary.org/b/isbn/0441017835-L.jpg" class="card-img-top">
+			</div>
+			<div class="card col">
+				<div class="card-body">
+					<h6 class="card-title"><i>Title</i> : book_info.title</h6>
+					<h6 class="card-title"><i>Author</i> : book_info.author</h6>
+					<h6 class="card-title"><i>Year</i> : book_info.year</h6>
+					<h6 class="card-title"><i>ISBN</i> : book_info.isbn</h6>
+					<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
 				</div>
 			</div>
-        </div>
-    </body>
+		</div>
+		<div class="row mt-2 mb-5">
+			<div class="card col">
+				<div class="card-body">
+					<h6 class="card-title">Reviews (count) :</h6>
+					<hr>
+					<!-- {% for review in reviews %} -->
+					<div class="review">
+						<div class="row mr-2 ml-2">
+							<p class="mb-1">
+								<b>username</b> rated it <b>rating</b>
+							</p>
+						</div>
+						<div class="row mr-2 ml-2">
+							<p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+						</div>
+					</div>
+					<!-- {% endfor %} -->
+					<hr>
+					<form action="">
+						<div class="row">
+							<div class="form-group col">
+							    <textarea class="form-control" id="Textarea1" rows="3" placeholder="What do you think about the book?"></textarea>
+							</div>
+							<div class="col-2">
+								<select class="custom-select custom-select-sm mt-2" style="width: 6rem">
+									<option selected>Rate it ...</option>
+									<option value="1">didn't like it</option>
+									<option value="2">it was ok </option>
+									<option value="3">liked it</option>
+									<option value="4">really liked it</option>
+									<option value="5">it was amazig</option>
+								</select>
+								<button type="button" class="btn btn-primary btn-sm mt-2">Add Review</button>
+							</div>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+    </div>
+</body>
 </html>
