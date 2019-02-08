@@ -138,13 +138,35 @@ def search():
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
 
-@app.route("/book/<string:isbn>")
+@app.route("/book/<string:isbn>", methods=["GET", "POST"])
 def book(isbn):
 	# get book's basic info from my DB
 	book_info = db.execute("SELECT * FROM books WHERE isbn=:isbn", {"isbn":isbn}).fetchone()
-	# get book's review info from goodreads
-	response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "yLM7LLyUkFTyeElwIrzUDA", "isbns": isbn})
-	review_info = response.json()
 	
-	return render_template("book.html", book_info=book_info, review_info=review_info)
+	if request.method == "GET":
+		# get book's review info from goodreads
+		response = requests.get("https://www.goodreads.com/book/review_counts.json", params={"key": "yLM7LLyUkFTyeElwIrzUDA", "isbns": isbn})
+		goodreads_info = response.json()
+		# get book's review info from my DB
+		reviews = db.execute("SELECT rating, opinion, username FROM reviews JOIN users ON users.id = reviews.user_id WHERE book_id=:book_id", {"book_id": book_info.id}).fetchall()
+		 
+		return render_template("book.html", book_info=book_info, goodreads_info=goodreads_info, reviews=reviews)
+	else:
+		# get review data
+		opinion = request.form.get("opinion")
+		rating = request.form.get("rating")
+		# check data exist
+		if not opinion or not rating:
+			return "opinion or rating is missing!"
+
+		# ADD REVIEW
+		try:
+			db.execute("""INSERT INTO reviews (book_id, user_id, rating, opinion)
+						  VALUES (:book_id, :user_id, :rating, :opinion)""",
+						  {"book_id": book_info.id, "user_id": session["user_id"], "rating": rating, "opinion": opinion})
+			db.commit()
+		except:
+			return "Failure"
+
+		return redirect(f"/book/{isbn}")
 

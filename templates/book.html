@@ -22,11 +22,50 @@
 				<h6 class="card-title"><i>Author</i> : {{book_info.author}}</h6>
 				<h6 class="card-title"><i>Year</i> : {{book_info.year}}</h6>
 				<h6 class="card-title"><i>ISBN</i> : {{book_info.isbn}}</h6>
-				<p class="card-text">{{review_info.books[0].work_ratings_count}} ratings, {{review_info.books[0].average_rating}} out of 5 average <a href="https://www.goodreads.com/book/isbn/{{book_info.isbn}}" target="_blank">on Goodreads</a>.</p>
+				<p class="card-text">{{goodreads_info.books[0].work_ratings_count}} ratings, {{goodreads_info.books[0].average_rating}} of 5 average <a href="https://www.goodreads.com/book/isbn/{{book_info.isbn}}" target="_blank">on Goodreads</a>.</p>
 			</div>
 		</div>
 	</div>
-	{{review_info}}
-	{{review_info.books[0].work_ratings_count}}
-	{{review_info.books[0].average_rating}}
+	<div class="row mt-2 mb-5">
+		<div class="card col">
+			<div class="card-body">
+				<h6 class="card-title">Reviews ({{reviews|length}}) :</h6>
+				<hr>
+				{% if reviews|length == 0 %}
+					<div>No reviews yet for this book</div>
+				{% endif %}
+				{% for review in reviews %}
+				<div class="review mb-2">
+					<div class="row mr-2 ml-2">
+						<p class="mb-1">
+							<b>{{review.username}}</b> rated it <b>{{review.rating}} of 5</b>
+						</p>
+					</div>
+					<div class="row mr-2 ml-2">
+						<p class="card-text">{{review.opinion}}</p>
+					</div>
+				</div>
+				{% endfor %}
+				<hr>
+				<form action="/book/{{ book_info.isbn }}", method="post">
+					<div class="row">
+						<div class="form-group col">
+						    <textarea name="opinion" class="form-control" id="Textarea1" rows="3" placeholder="What do you think about the book?"></textarea>
+						</div>
+						<div class="col-2">
+							<select name="rating" class="custom-select custom-select-sm mt-2" style="width: 6rem">
+								<option selected>Rate it ...</option>
+								<option value="1">1: didn't like it</option>
+								<option value="2">2: it was ok </option>
+								<option value="3">3: liked it</option>
+								<option value="4">4: really liked it</option>
+								<option value="5">5: it was amazig</option>
+							</select>
+							<button type="submit" class="btn btn-primary btn-sm mt-2">Add Review</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 {% endblock %}

@@ -9,3 +9,10 @@ img {
 	width: 13rem; 
 	height: 20rem
 }
+
+.review {
+	background-color: #b9cbe8;
+	padding: 2px;
+	border: 1px solid grey;
+	border-radius: 10px;
+}
