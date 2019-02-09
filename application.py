@@ -149,8 +149,13 @@ def book(isbn):
 		goodreads_info = response.json()
 		# get book's review info from my DB
 		reviews = db.execute("SELECT rating, opinion, username FROM reviews JOIN users ON users.id = reviews.user_id WHERE book_id=:book_id", {"book_id": book_info.id}).fetchall()
-		 
-		return render_template("book.html", book_info=book_info, goodreads_info=goodreads_info, reviews=reviews)
+		# check if current user submitted a review
+		user_submitted_review = False
+		for review in reviews:
+			if review.username == session["username"]:
+				user_submitted_review = True
+
+		return render_template("book.html", book_info=book_info, goodreads_info=goodreads_info, reviews=reviews, user_submitted_review=user_submitted_review)
 	else:
 		# get review data
 		opinion = request.form.get("opinion")

@@ -35,18 +35,19 @@
 					<div>No reviews yet for this book</div>
 				{% endif %}
 				{% for review in reviews %}
-				<div class="review mb-2">
-					<div class="row mr-2 ml-2">
-						<p class="mb-1">
-							<b>{{review.username}}</b> rated it <b>{{review.rating}} of 5</b>
-						</p>
+					<div class="review mb-2">
+						<div class="row mr-2 ml-2">
+							<p class="mb-1">
+								<b>{{review.username}}</b> rated it <b>{{review.rating}} of 5</b>
+							</p>
+						</div>
+						<div class="row mr-2 ml-2">
+							<p class="card-text">{{review.opinion}}</p>
+						</div>
 					</div>
-					<div class="row mr-2 ml-2">
-						<p class="card-text">{{review.opinion}}</p>
-					</div>
-				</div>
 				{% endfor %}
 				<hr>
+				{% if not user_submitted_review %}
 				<form action="/book/{{ book_info.isbn }}", method="post">
 					<div class="row">
 						<div class="form-group col">
@@ -65,6 +66,7 @@
 						</div>
 					</div>
 				</form>
+				{% endif %}
 			</div>
 		</div>
 	</div>
