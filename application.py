@@ -1,7 +1,7 @@
 import os
 import requests
 
-from flask import Flask, session, render_template, redirect, url_for, request
+from flask import Flask, session, render_template, redirect, url_for, request, jsonify, abort
 from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
@@ -181,3 +181,35 @@ def book(isbn):
 
 		return redirect(f"/book/{isbn}")
 
+
+@app.route("/api/<string:isbn>")
+def api(isbn):
+	
+	# if isbn in DB
+	try:
+		# get book's basic info from my DB
+		book_info = db.execute("SELECT * FROM books WHERE isbn=:isbn", {"isbn":isbn}).fetchone()
+
+		# get ratings count
+		review_count = db.execute("SELECT COUNT(rating) FROM reviews JOIN books ON books.id=reviews.book_id WHERE isbn=:isbn", {"isbn":isbn}).scalar()
+		# get ratings average
+		review_avg = db.execute("SELECT AVG(rating) FROM reviews JOIN books ON books.id=reviews.book_id WHERE isbn=:isbn", {"isbn":isbn}).scalar()
+		# scalar() fetches first col of first row = fetchall()[0]
+
+		# if no reviews, set avg to 0 instead of None
+		if not review_avg:
+			review_avg = 0
+
+		# return f"{review_count}, {review_avg}" # testing
+		return jsonify (
+		    title=book_info.title,
+		    author=book_info.author,
+		    year=book_info.year,
+		    isbn=isbn,
+		    review_count=int(review_count),
+		    average_score=float(review_avg)
+		) # jsonify takes a dict or any json serializable
+
+	# if isbn not in DB
+	except:
+		abort(404)
