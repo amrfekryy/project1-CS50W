@@ -1,11 +1,11 @@
-
+/*clear cache every time you update styles.css*/
 
 tr:hover {background-color: #EEE}
 
 .card {border: 1px solid black}
 
 img {
-	background: transparent url(../images/nocover.gif) no-repeat center; 
+	background: transparent url("images/nocover.gif") no-repeat center; 
 	width: 13rem; 
 	height: 20rem
 }
