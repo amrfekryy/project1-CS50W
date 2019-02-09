@@ -160,9 +160,15 @@ def book(isbn):
 		# get review data
 		opinion = request.form.get("opinion")
 		rating = request.form.get("rating")
+		
+		# get around the 'selected' rating option value
+		if rating not in ('1','2','3','4','5'): rating = None
+		
 		# check data exist
 		if not opinion or not rating:
 			return "opinion or rating is missing!"
+
+		# ???? opinion shouldn't be a must, update DB
 
 		# ADD REVIEW
 		try:
