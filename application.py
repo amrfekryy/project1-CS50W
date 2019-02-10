@@ -155,7 +155,7 @@ def book(isbn):
 			if review.username == session["username"]:
 				user_submitted_review = True
 
-		return render_template("book.html", book_info=book_info, goodreads_info=goodreads_info, reviews=reviews, user_submitted_review=user_submitted_review)
+		return render_template("book.html", book_info=book_info, goodreads_info=goodreads_info, reviews=reviews, user_submitted_review=user_submitted_review, username=session["username"])
 	else:
 		# get review data
 		opinion = request.form.get("opinion")
