@@ -213,3 +213,8 @@ def api(isbn):
 	# if isbn not in DB
 	except:
 		abort(404)
+
+
+if __name__=="__main__":
+	app.run()
+

@@ -11,7 +11,7 @@
 {% endblock %}
 
 {% block body %}
-	<div class="row mt-5" >
+	<div class="row mt-5 ml-1 mr-1" >
 		<div class="card p-2 mr-2" style="width: 14rem; height: 21rem">
 			<!-- https://openlibrary.org/dev/docs/api/covers -->
 			<img src="http://covers.openlibrary.org/b/isbn/{{book_info.isbn}}-L.jpg" class="card-img-top">
@@ -26,7 +26,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="row mt-2 mb-5">
+	<div class="row mt-2 mb-5 ml-1 mr-1">
 		<div class="card col">
 			<div class="card-body">
 				<h6 class="card-title">Reviews ({{reviews|length}}) :</h6>
