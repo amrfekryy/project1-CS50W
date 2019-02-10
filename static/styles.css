@@ -1,8 +1,19 @@
 /*clear cache every time you update styles.css*/
 
+.container {
+	color: #343A40;
+}
+
+table {
+	background-color: white;
+}
+
 tr:hover {background-color: #EEE}
 
-.card {border: 1px solid black}
+.card {
+	border: 1px solid lightseagreen;
+	background-color: whitesmoke;
+}
 
 img {
 	background: transparent url("images/nocover.gif") no-repeat center; 
@@ -10,9 +21,47 @@ img {
 	height: 20rem
 }
 
+.noreviews {
+	color: grey;
+	text-align: center;
+}
+
 .review {
-	background-color: #b9cbe8;
+	background-color: lavender;
 	padding: 2px;
-	border: 1px solid grey;
+	border: 1px solid lightgrey;
 	border-radius: 10px;
+}
+
+.second_color {
+	color: #343A40;
+}
+
+a:hover {
+	color: lightseagreen;
+}
+
+.third_color {
+	color: lightseagreen;
+}
+
+.third_color_border {
+	border-color: lightseagreen;
+}
+
+.add_review {
+	background-color: lightseagreen;
+	border-color: lightseagreen;
+}
+
+.add_review:hover {
+	color: white;
+	background-color: teal;
+	border-color: teal;
+}
+
+.third_color_border:hover {
+	color: white;
+	background-color: lightseagreen;
+	border-color: lightseagreen;
 }

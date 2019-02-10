@@ -26,11 +26,11 @@
             <tr>
               <th scope="row">{{ loop.index }}</th>
               
-              <td><a title="Go to book's page" href="/book/{{ book.isbn }}">{{ book.title }}</td>
+              <td><a class="second_color" title="Go to book's page" href="/book/{{ book.isbn }}">{{ book.title }}</td>
               
-              <td><a title="See all books of {{ book.author }}" href="/search?q={{ book.author }}">{{ book.author }}</a></td>
+              <td><a class="second_color" title="See all books of {{ book.author }}" href="/search?q={{ book.author }}">{{ book.author }}</a></td>
               
-              <td><a title="See all books of {{ book.year }}" href="/search?q={{ book.year }}">{{ book.year }}</a></td>
+              <td><a class="second_color" title="See all books of {{ book.year }}" href="/search?q={{ book.year }}">{{ book.year }}</a></td>
             </tr>
             {% endfor %}
           </tbody>

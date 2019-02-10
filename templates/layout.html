@@ -11,7 +11,7 @@
         <div class="container">
             {% if username %}
             <nav class=" navbar-expand-lg navbar navbar-dark bg-dark mb-5">
-              <a class="navbar-brand" href="#">About<b>Books</b></a>
+              <a class="navbar-brand" href="#">About<span class="third_color">Books</span></a>
               <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
               </button>
@@ -19,7 +19,7 @@
               <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <form class="form-inline my-2 my-lg-0 mr-auto" action="{{ url_for('search') }}" method="get">
                   <input class="form-control mr-sm-2" name="q" type="search" placeholder="Search books by title, author, year or ISBN" aria-label="Search" style="width:24rem">
-                  <button id="search" class="btn btn-outline-primary my-2 my-sm-0" type="submit">Search</button>
+                  <button id="search" class="btn btn-outline-primary my-2 my-sm-0 third_color third_color_border" type="submit">Search</button>
                 </form>
                 <ul class="navbar-nav">
                   <li class="nav-item">
