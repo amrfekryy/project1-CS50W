@@ -48,14 +48,14 @@
 				{% endfor %}
 
 				{% if not user_submitted_review %}
-				<form action="/book/{{ book_info.isbn }}", method="post">
+				<form id="review_frm" action="/book/{{ book_info.isbn }}", method="post">
 					<div class="row">
 						<div class="form-group col">
 						    <textarea name="opinion" class="form-control" id="Textarea1" rows="3" placeholder="What do you think about the book?"></textarea>
 						</div>
 						<div class="col-2">
 							<select name="rating" class="custom-select custom-select-sm mt-2" style="width: 6rem">
-								<option selected>Rate it ...</option>
+								<option hidden selected value="">Rate it ...</option>
 								<option value="1">1: didn't like it</option>
 								<option value="2">2: it was ok </option>
 								<option value="3">3: liked it</option>

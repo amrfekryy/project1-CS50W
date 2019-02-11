@@ -6,7 +6,7 @@
 
 {% block body %}
     <h2>Register</h2>
-    <form action="{{ url_for('register') }}" method="post">
+    <form id="register_frm" action="{{ url_for('register') }}" method="post">
         <div class="form-group">
             <input class="form-control" name="username" type="text" placeholder="username">
         </div>

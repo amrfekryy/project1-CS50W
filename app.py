@@ -39,8 +39,9 @@ def login():
 		password = request.form.get("password")
 
 		# TEST INPUTS
-		if not username or not password:
-			return "One or more field is missing! Please try again"
+		# if not username or not password:
+		# 	return "One or more field is missing! Please try again"
+		# (checked on frontend)
 
 		user_exists = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).rowcount
 		if not user_exists:
@@ -81,11 +82,13 @@ def register():
 
 		# TEST INPUTS
 		# check all values are provided
-		if not username or not email or not password or not password2:
-			return "One or more field is missing! Please try again"
-		# check passwords match
-		if password != password2:
-			return "Passwords don't match! Please try again"
+		# if not username or not email or not password or not password2:
+		# 	return "One or more field is missing! Please try again"
+		# # check passwords match
+		# if password != password2:
+		# 	return "Passwords don't match! Please try again"
+		# (checked on frontend)
+
 		# check username and email are unique
 		username_repeated = db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).rowcount
 		email_repeated = db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).rowcount
@@ -124,8 +127,10 @@ def search():
 		return redirect(url_for("login"))
 	# get search text
 	q1 = request.args.get("q")
-	if not q1:
-		return "Search field is empty!"
+	# if not q1:
+	# 	return "Search field is empty!"
+	# (checked on frontend)
+
 	# make it partial
 	q2 = f"%{q1}%"
 	
@@ -162,11 +167,13 @@ def book(isbn):
 		rating = request.form.get("rating")
 		
 		# get around the 'selected' rating option value
-		if rating not in ('1','2','3','4','5'): rating = None
-		
+		# if rating not in ('1','2','3','4','5'): rating = None
+		# fixed with value="" attribute
+
 		# check data exist
-		if not opinion or not rating:
-			return "opinion or rating is missing!"
+		# if not opinion or not rating:
+		# 	return "opinion or rating is missing!"
+		# (checked on frontend)
 
 		# ???? opinion shouldn't be a must, update DB
 
