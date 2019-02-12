@@ -4,6 +4,14 @@
     Login
 {% endblock %}
 
+{% block script %}
+    <script>
+        // get input validation results from server
+        var not_user = "{{not_user|safe}}";
+        var wrong_password = "{{wrong_password|safe}}";
+    </script>
+{% endblock %}
+
 {% block body %}
     <h2>Login</h2>
     <form id="login_frm" action="{{ url_for('login') }}" method="post">

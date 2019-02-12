@@ -17,6 +17,9 @@ if (login) {
         }
         return true;
     }
+    // alert invalid inputs
+    if (not_user) {alert("username doesn't exist");}
+    if (wrong_password) {alert("password is not correct");}
 };
 
 if (register) {

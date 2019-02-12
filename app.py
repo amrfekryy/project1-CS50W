@@ -45,11 +45,13 @@ def login():
 
 		user_exists = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).rowcount
 		if not user_exists:
-			return "username doesn't exist!"
+			# return "username doesn't exist!"
+			return render_template("login.html", not_user=True)
 			
 		user_info = db.execute("SELECT * FROM users WHERE username=:username", {"username":username}).fetchone()
 		if not check_password_hash(user_info.password, password):
-			return "password is not correct!"
+			# return "password is not correct!"
+			return render_template("login.html", wrong_password=True)
 		
 		# COOKIE USER
 		session["user_id"] = user_info.id
