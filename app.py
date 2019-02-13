@@ -137,12 +137,39 @@ def search():
 
 	# make it partial
 	q2 = f"%{q1}%"
-	
+
 	# query database enabling case-insensitivity
 	# concatenate columns with separator to prevent results of words between two columns
 	book_list = db.execute("""SELECT * FROM books 
 		WHERE CONCAT_WS(' ', LOWER(isbn), LOWER(title), LOWER(author), year::text) LIKE LOWER(:q2)""", {"q2":q2}).fetchall()
 	# also see COLLATE utf8_general_ci to fix case-insensitivity
+	
+	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
+
+@app.route("/clicksearch")
+def clicksearch():
+	"""for search on click, so that a clicked on year doesn't yield isbn results"""
+	
+	# check user is logged in
+	if not session.get("user_id"):
+		return redirect(url_for("login"))
+	# get search text
+	q1 = request.args.get("q")
+	# make it partial
+	q2 = f"%{q1}%"
+	
+	# year clicked
+	if len(q1) == 4:
+		try:
+			# confirm it is an integer
+			is_it_integer = int(q1)
+			book_list = db.execute("""SELECT * FROM books 
+			WHERE year::text = :q1""", {"q1":q1}).fetchall()
+		except: pass
+	# author clicked
+	else:
+		book_list = db.execute("""SELECT * FROM books 
+			WHERE LOWER(author) LIKE LOWER(:q2)""", {"q2":q2}).fetchall()
 	
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
