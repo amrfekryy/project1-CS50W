@@ -218,6 +218,11 @@ def book(isbn):
 
 		# ???? opinion shouldn't be a must, update DB
 
+		# append <br> to \n so that new lines are translated 
+		opinion = opinion.replace('\n','<br>\n')
+		# nl2br. see https://stackoverflow.com/a/30593254
+		# unescape html. see http://flask.pocoo.org/docs/1.0/quickstart/#rendering-templates
+		
 		# ADD REVIEW
 		try:
 			db.execute("""INSERT INTO reviews (book_id, user_id, rating, opinion)
