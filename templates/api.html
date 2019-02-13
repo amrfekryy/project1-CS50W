@@ -1,0 +1,34 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    API Access
+{% endblock %}
+
+{% block style %}
+<style>
+	body {background-color: lightgrey}
+	pre {color:teal; background-color: lightgray; padding:10px;}
+  code {background-color: lightgray;}
+</style>
+{% endblock %}
+
+{% block body %}
+<div class="row mt-2 mb-5 ml-1 mr-1">
+  <div class="card col">
+    <div class="card-body">
+      <p class="card-text">Our API allows developers access to our data in order to help websites or applications that deal with books get basic info about a certain book using its ISBN.</p>
+      <h6 class="card-title">Usage:</h6>
+      <p class="card-text">When a GET request is made to <code>/api/ISBN</code> route, where <code>ISBN</code> is replaced by the book's ISBN, a JSON response containing the book’s title, author, publication date, ISBN number, review count, and average score will be returned. The resulting JSON follows the format:
+<pre><code>{
+    "title": "Memory",
+    "author": "Doug Lloyd",
+    "year": 2015,
+    "isbn": "1632168146",
+    "review_count": 28,
+    "average_score": 5.0
+}</code></pre>
+      If the requested ISBN number isn’t in our database, a 404 error is returned.</p>
+    </div>
+  </div>
+</div>
+{% endblock %}

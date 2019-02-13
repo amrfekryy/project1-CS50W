@@ -235,6 +235,10 @@ def book(isbn):
 		return redirect(f"/book/{isbn}")
 
 
+@app.route("/api")
+def api_info():
+	return render_template("api.html", username=session["username"])
+
 @app.route("/api/<string:isbn>")
 def api(isbn):
 	
