@@ -6,6 +6,7 @@ from flask_session import Session
 from sqlalchemy import create_engine
 from sqlalchemy.orm import scoped_session, sessionmaker
 from werkzeug.security import check_password_hash, generate_password_hash
+from functools import wraps
 
 app = Flask(__name__)
 
@@ -22,12 +23,23 @@ Session(app)
 engine = create_engine(os.getenv("DATABASE_URL"))
 db = scoped_session(sessionmaker(bind=engine))
 
+def login_required(f):
+    """
+    Decorate routes to require login.
+
+    http://flask.pocoo.org/docs/0.12/patterns/viewdecorators/
+    """
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not session.get("user_id"):
+            return redirect(url_for("login"))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.route("/")
+@login_required
 def index():
-	# check user is logged in
-	if not session.get("user_id"):
-		return redirect(url_for("login"))
 	return render_template("index.html", username=session["username"])
 
 @app.route("/login", methods=["GET", "POST"])
@@ -125,10 +137,8 @@ def register():
 		return render_template("register.html")
 
 @app.route("/search")
+@login_required
 def search():
-	# check user is logged in
-	if not session.get("user_id"):
-		return redirect(url_for("login"))
 	# get search text
 	q1 = request.args.get("q")
 	# if not q1:
@@ -147,12 +157,10 @@ def search():
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
 @app.route("/clicksearch")
+@login_required
 def clicksearch():
 	"""for search on click, so that a clicked on year doesn't yield isbn results"""
-	
-	# check user is logged in
-	if not session.get("user_id"):
-		return redirect(url_for("login"))
+
 	# get search text
 	q1 = request.args.get("q")
 	# make it partial
@@ -175,7 +183,9 @@ def clicksearch():
 
 
 @app.route("/book/<string:isbn>", methods=["GET", "POST"])
+@login_required
 def book(isbn):
+
 	# get book's basic info from my DB
 	book_info = db.execute("SELECT * FROM books WHERE isbn=:isbn", {"isbn":isbn}).fetchone()
 	
