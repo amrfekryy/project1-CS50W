@@ -39,13 +39,16 @@ if (register) {
             alert("missing password");
             return false;
         }
-        else if (register.password.value != register_form.password2.value)
+        else if (register.password.value != register.password2.value)
         {
             alert("passwords don't match");
             return false;
         }
         return true;
     }
+    // alert invalid inputs
+    if (username_repeated) {alert("username already exists!");}
+    if (email_repeated) {alert("email already exists!");}
 };
 
 if (search) {

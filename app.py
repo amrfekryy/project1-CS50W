@@ -95,9 +95,11 @@ def register():
 		username_repeated = db.execute("SELECT * FROM users WHERE username = :username", {"username": username}).rowcount
 		email_repeated = db.execute("SELECT * FROM users WHERE email = :email", {"email": email}).rowcount
 		if username_repeated:
-			return "username already exists!"
+			# return "username already exists!"
+			return render_template("register.html", username_repeated=True)
 		if email_repeated:
-			return "email already exists!"
+			# return "email already exists!"
+			return render_template("register.html", email_repeated=True)
 		
 		# HASH PASSWORD
 		password = generate_password_hash(password)

@@ -4,6 +4,14 @@
     Registeration
 {% endblock %}
 
+{% block script %}
+    <script>
+        // get input validation results from server
+        var username_repeated = "{{username_repeated|safe}}";
+        var email_repeated = "{{email_repeated|safe}}";
+    </script>
+{% endblock %}
+
 {% block body %}
     <h2>Register</h2>
     <form id="register_frm" action="{{ url_for('register') }}" method="post">
