@@ -1,40 +1,51 @@
 {% extends "layout.html" %}
 
 {% block title %}
-    Welcome
+    Welcome {{ firstname }}
+{% endblock %}
+
+{% block style %}
+  <style>
+    .undraw {background-image: none; margin: auto}
+    .heading {text-align: center; margin: 10px auto; font-size: 20px}
+  </style>
 {% endblock %}
 
 {% block body %}
-
-
-    {% if q1 %}
-    {% if book_list == [] %}
-        <p>Sorry, no results for <b><i>{{ q1 }}</i></b></p>
+    {% if not q1 %}
+    <p class="col-lg-6 col-sm-12 heading">Welcome {{ firstname }}</p>
+    <p class="col-lg-6 col-sm-12 heading">Find your next favorite book</p>
+    <div class="row">
+      <img class="col col-lg-6 col-sm-12 undraw" src="{{ url_for('static', filename='images/book_lover.svg') }}">
+    </div>
     {% else %}
-        <p>{{ book_list|length }} results found for <b><i>{{ q1 }}</i></b></p>
-        <table class="table">
-          <thead class="thead-light">
-            <tr>
-              <th scope="col">#</th>
-              <th scope="col">Title</th>
-              <th scope="col">Author</th>
-              <th scope="col">Year</th>
-            </tr>
-          </thead>
-          <tbody>
-            {% for book in book_list %}
-            <tr>
-              <th scope="row">{{ loop.index }}</th>
-              
-              <td><a class="second_color" title="Go to book's page" href="/book/{{ book.isbn }}">{{ book.title }}</td>
-              
-              <td><a class="second_color" title="See all books of {{ book.author }}" href="/clicksearch?q={{ book.author }}">{{ book.author }}</a></td>
-              
-              <td><a class="second_color" title="See all books of {{ book.year }}" href="/clicksearch?q={{ book.year }}">{{ book.year }}</a></td>
-            </tr>
-            {% endfor %}
-          </tbody>
-        </table>         
-    {% endif %}
+      {% if book_list == [] %}
+          <p>Sorry, no results for <b><i>{{ q1 }}</i></b></p>
+      {% else %}
+          <p>{{ book_list|length }} results found for <b><i>{{ q1 }}</i></b></p>
+          <table class="table">
+            <thead class="thead-light">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Title</th>
+                <th scope="col">Author</th>
+                <th scope="col">Year</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for book in book_list %}
+              <tr>
+                <th scope="row">{{ loop.index }}</th>
+                
+                <td><a class="second_color" title="Go to book's page" href="/book/{{ book.isbn }}">{{ book.title }}</td>
+                
+                <td><a class="second_color" title="See all books of {{ book.author }}" href="/clicksearch?q={{ book.author }}">{{ book.author }}</a></td>
+                
+                <td><a class="second_color" title="See all books of {{ book.year }}" href="/clicksearch?q={{ book.year }}">{{ book.year }}</a></td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>         
+      {% endif %}
     {% endif %}
 {% endblock %}

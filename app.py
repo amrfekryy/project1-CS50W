@@ -40,7 +40,8 @@ def login_required(f):
 @app.route("/")
 @login_required
 def index():
-	return render_template("index.html", username=session["username"])
+	firstname = session["username"].split(' ', 1)[0]
+	return render_template("index.html", username=session["username"], firstname=firstname)
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
