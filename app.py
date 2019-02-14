@@ -182,6 +182,13 @@ def clicksearch():
 	
 	return render_template("index.html", q1=q1, book_list=book_list, username=session["username"])
 
+@app.route("/reviews")
+@login_required
+def reviews():
+	# get current user reviews from my DB
+	user_reviews = db.execute("SELECT isbn, title, author, year FROM reviews, users, books WHERE users.id = reviews.user_id AND books.id = reviews.book_id AND username=:username", {"username": session["username"]}).fetchall()
+	return render_template("index.html", reviews_query=True, user_reviews=user_reviews[::-1], username=session["username"])
+
 
 @app.route("/book/<string:isbn>", methods=["GET", "POST"])
 @login_required
