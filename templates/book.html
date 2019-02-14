@@ -6,7 +6,78 @@
 
 {% block style %}
 <style>
-	body {background-color: lightgrey}
+
+body {background-color: lightgrey}
+
+/* https://codepen.io/neilpomerleau/pen/wzxzQr?editors=1111 */
+.stars {
+  display: inline-block;
+  position: relative;
+  width:120px;
+  height: 20px;
+  line-height: 20px;
+  font-size: 20px;
+}
+
+.stars label {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  cursor: pointer;
+}
+
+.stars label:last-child {
+  position: static;
+}
+
+.stars label:nth-child(1) {
+  z-index: 5;
+}
+
+.stars label:nth-child(2) {
+  z-index: 4;
+}
+
+.stars label:nth-child(3) {
+  z-index: 3;
+}
+
+.stars label:nth-child(4) {
+  z-index: 2;
+}
+
+.stars label:nth-child(5) {
+  z-index: 1;
+}
+
+.stars label input {
+  position: absolute;
+  top: 0;
+  left: 0;
+  opacity: 0;
+}
+
+.stars label .icon {
+  float: left;
+  color: transparent;
+}
+
+.stars label:last-child .icon {
+  color: #000;
+}
+
+.stars:not(:hover) label input:checked ~ .icon,
+.stars:hover label:hover input ~ .icon {
+  color: orange;
+}
+
+.stars label input:focus:not(:checked) ~ .icon:last-child {
+  color: #000;
+  text-shadow: 0 0 5px #09f;
+}
+
+
 </style>
 {% endblock %}
 
@@ -53,15 +124,43 @@
 						<div class="form-group col">
 						    <textarea name="opinion" class="form-control" id="Textarea1" rows="3" placeholder="What do you think about the book?"></textarea>
 						</div>
-						<div class="col-2">
-							<select name="rating" class="custom-select custom-select-sm mt-2" style="width: 6rem">
-								<option hidden selected value="">Rate it ...</option>
-								<option value="1">1: didn't like it</option>
-								<option value="2">2: it was ok </option>
-								<option value="3">3: liked it</option>
-								<option value="4">4: really liked it</option>
-								<option value="5">5: it was amazig</option>
-							</select>
+						<div class="col-lg-2 col-sm-3">
+							<!-- https://codepen.io/neilpomerleau/pen/wzxzQr?editors=1111 -->
+							<div class="stars mt-2">
+							  <label title="Didn't like it">
+							    <input type="radio" name="rating" value="1" />
+							    <span class="icon">★</span>
+							  </label>
+							  <label title="It was ok">
+							    <input type="radio" name="rating" value="2" />
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							  </label>
+							  <label title="Liked it">
+							    <input type="radio" name="rating" value="3" />
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>   
+							  </label>
+							  <label title="Really liked it">
+							    <input type="radio" name="rating" value="4" />
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							  </label>
+							  <label title="It was amazing">
+							    <input type="radio" name="rating" value="5" />
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							    <span class="icon">★</span>
+							  </label>
+							</div>
+
+							<div class="w-100"></div> 
+
 							<button type="submit" class="btn btn-primary btn-sm mt-2 add_review">Add Review</button>
 						</div>
 					</div>
